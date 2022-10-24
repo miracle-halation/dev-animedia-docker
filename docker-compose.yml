@@ -4,7 +4,7 @@ services:
     build:
       context: .
       dockerfile: ./infra/db/Dockerfile
-    image: animedia-mysql
+    image: dev-animedia-mysql
     ports:
       - "3306:3306"
     environment:
@@ -12,12 +12,12 @@ services:
       TZ: "Asia/Tokyo"
     command: --default-authentication-plugin=mysql_native_password
     volumes:
-      - db-data:/var/lib/mysql
+      - dev-db-data:/var/lib/mysql
   app:
     build:
       context: ./backend
       dockerfile: ./../infra/rails/Dockerfile
-    image: rails-ani
+    image: dev-rails-ani
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 8000 -b '0.0.0.0'"
     volumes:
       - ./backend/:/backend
@@ -31,7 +31,7 @@ services:
     build:
       context: ./frontend
       dockerfile: ./../infra/nuxt/Dockerfile
-    image: nuxt-ani
+    image: dev-nuxt-ani
     ports:
       - "3000:3000"
     command: yarn dev
@@ -44,4 +44,4 @@ services:
     - CHOKIDAR_USEPOLLING=true
 volumes:
   node_modules_volume:
-  db-data:
+  dev-db-data:
